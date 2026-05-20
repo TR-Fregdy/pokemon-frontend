@@ -7,7 +7,7 @@ services:
       dockerfile: .tr-codegen/Dockerfile
     image: pokemon-frontend:latest
     ports:
-      - "3002:80"
+      - "21022:80"
     networks:
       - pokemon-network
     depends_on:
@@ -19,7 +19,7 @@ services:
       dockerfile: .tr-codegen/Dockerfile
     container_name: main_app_pokemon
     ports:
-      - "3001:3001"
+      - "21023:3001"
     environment:
       - NODE_ENV=production
       - PORT=3001

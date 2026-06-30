@@ -7,7 +7,7 @@ RUN npm install
 
 # Build
 COPY . .
-RUN npm run build
+RUN REACT_APP_API_URL=http://localhost:21023 npm run build
 
 # --- runtime stage ---
 FROM nginx:alpine

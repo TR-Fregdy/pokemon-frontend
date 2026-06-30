@@ -10,10 +10,12 @@ function App() {
   const [pokemons, setPokemons] = useState([]);
   const [filteredPokemons, setFilteredPokemons] = useState([]);
   const [types, setTypes] = useState([]);
+  const [colors, setColors] = useState([]);
   const [filters, setFilters] = useState({
     name: '',
     type: '',
-    legendary: ''
+    legendary: '',
+    color: ''
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -39,6 +41,11 @@ function App() {
         setPokemons(pokemonData.data);
         setFilteredPokemons(pokemonData.data);
         setTypes(typesData.data);
+
+        // Derive unique colors from Pokemon data
+        const uniqueColors = [...new Set(pokemonData.data.map(p => p.color).filter(c => c))].sort();
+        setColors(uniqueColors);
+
         setError(null);
       } catch (err) {
         setError('Failed to load Pokemon data. Please make sure the backend server is running.');
@@ -76,6 +83,13 @@ function App() {
         filtered = filtered.filter(pokemon => pokemon.legendary === isLegendary);
       }
 
+      // Filter by color
+      if (filters.color) {
+        filtered = filtered.filter(pokemon =>
+          pokemon.color && pokemon.color.toLowerCase() === filters.color.toLowerCase()
+        );
+      }
+
       setFilteredPokemons(filtered);
     };
 
@@ -90,7 +104,8 @@ function App() {
     setFilters({
       name: '',
       type: '',
-      legendary: ''
+      legendary: '',
+      color: ''
     });
   };
 
@@ -135,6 +150,7 @@ function App() {
         <FilterBar
           filters={filters}
           types={types}
+          colors={colors}
           onFilterChange={handleFilterChange}
           onClearFilters={clearFilters}
         />

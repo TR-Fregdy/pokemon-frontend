@@ -13,7 +13,8 @@ function App() {
   const [filters, setFilters] = useState({
     name: '',
     type: '',
-    legendary: ''
+    legendary: '',
+    color: ''
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -76,6 +77,13 @@ function App() {
         filtered = filtered.filter(pokemon => pokemon.legendary === isLegendary);
       }
 
+      // Filter by color
+      if (filters.color) {
+        filtered = filtered.filter(pokemon =>
+          pokemon.color.toLowerCase() === filters.color.toLowerCase()
+        );
+      }
+
       setFilteredPokemons(filtered);
     };
 
@@ -90,7 +98,8 @@ function App() {
     setFilters({
       name: '',
       type: '',
-      legendary: ''
+      legendary: '',
+      color: ''
     });
   };
 

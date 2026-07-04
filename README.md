@@ -1,155 +1,128 @@
 # Pokemon Frontend
 
-A React-based web application for browsing and filtering Pokemon data.
-
-## Features
-
-- 🔍 **Search by Name** - Find Pokemon by typing their name
-- 🏷️ **Filter by Type** - Filter Pokemon by their elemental type
-- ⭐ **Legendary Filter** - Show only legendary or non-legendary Pokemon
-- 📱 **Responsive Design** - Works on desktop, tablet, and mobile
-- 🎨 **Modern UI** - Beautiful glassmorphism design with animations
-- ⚡ **Real-time Filtering** - Instant results as you type or change filters
-- 🐙 **Error Handling** - Graceful handling of network issues
+A modern React single-page application for browsing and filtering Pokemon data. The app features a responsive glassmorphism UI with real-time search, type-based filtering, and legendary status filtering, powered by the Pokemon Backend API.
 
 ## Technology Stack
 
-- **React 18** - Modern React with functional components and hooks
-- **CSS3** - Custom styling with animations and responsive design
-- **Docker** - Containerized deployment
-- **Nginx** - Production web server
+| Technology | Version | Purpose |
+|-----------|---------|---------|
+| React | ^18.2.0 | UI framework with hooks |
+| ReactDOM | ^18.2.0 | DOM rendering |
+| react-scripts | 5.0.1 | Build toolchain (Webpack, Babel, Jest, ESLint) |
+| CSS3 | - | Styling with animations, grid, glassmorphism |
+| Docker | - | Containerized deployment |
+| Nginx | Alpine | Production static file server |
 
-## Prerequisites
+## Quick Start
 
-- Node.js (v18 or later)
-- npm or yarn
-- Backend API running (see backend README)
+### Prerequisites
 
-## Development Setup
+- Node.js v18 or later
+- npm
+- Pokemon Backend API running on port 3001 (see [pokemon-backend](../pokemon-backend/README.md))
 
-### 1. Install Dependencies
+### Installation
 
 ```bash
+# Clone the repository
+git clone <repository-url>
+cd pokemon-frontend
+
+# Install dependencies
 npm install
-```
 
-### 2. Environment Configuration
-
-Create a `.env` file in the root directory:
-
-```bash
+# Configure environment (optional)
 cp .env.example .env
-```
+# Edit .env to set REACT_APP_API_URL if needed
 
-Update the API URL in `.env`:
-```
-REACT_APP_API_URL=http://localhost:3001
-```
-
-### 3. Start Development Server
-
-```bash
+# Start the development server
 npm start
 ```
 
-The application will open at `http://localhost:3000`
+The application opens at `http://localhost:3000` and proxies API requests to `http://localhost:3001`.
 
-## Docker Setup
-
-### Build and Run
+### Docker
 
 ```bash
-# Build the image
-docker build -t pokemon-frontend .
+# Build and run with Docker
+docker build -f .tr-codegen/Dockerfile -t pokemon-frontend .
+docker run -p 3002:80 pokemon-frontend
 
-# Run the container
-docker run -p 3000:3000 pokemon-frontend
+# Or use Docker Compose (starts both frontend + backend)
+docker-compose -f .tr-codegen/docker-compose.yml up -d
 ```
 
-### Using Docker Compose
+## High-Level Usage
 
-For full-stack deployment (includes backend):
+### Search & Filter Pokemon
 
-```bash
-# Start both frontend and backend
-docker-compose up -d
+1. **Name Search** - Type any part of a Pokemon's name in the search box for instant results
+2. **Type Filter** - Select from the dropdown to filter by elemental type (Fire, Water, Electric, etc.)
+3. **Legendary Filter** - Toggle between All, Legendary Only, or Non-Legendary Only
+4. **Clear Filters** - Reset all filters with the Clear Filters button
 
-# Stop all services
-docker-compose down
-```
+All filters work in combination and apply in real-time.
+
+### Pokemon Cards
+
+Each Pokemon is displayed as a card showing:
+- Pokemon sprite image (from PokeAPI)
+- Name and ID number (formatted as #001)
+- Color-coded type badges
+- Legendary badge for legendary Pokemon
+
+### Responsive Layout
+
+- **Desktop**: Multi-column grid
+- **Tablet**: Adaptive 2-3 column layout
+- **Mobile**: Single column with touch-friendly controls
 
 ## Project Structure
 
 ```
 pokemon-frontend/
-├── public/
-│   └── index.html
-├── src/
-│   ├── components/
-│   │   ├── PokemonCard.js      # Individual Pokemon card
-│   │   ├── PokemonCard.css
-│   │   ├── FilterBar.js        # Search and filter controls
+├── public/                    # Static assets and HTML entry point
+│   ├── index.html             # HTML template with root div
+│   └── manifest.json          # PWA manifest
+├── src/                       # React source code
+│   ├── components/            # Reusable UI components
+│   │   ├── FilterBar.js       # Search and filter controls
 │   │   ├── FilterBar.css
-│   │   ├── LoadingSpinner.js   # Pokeball loading animation
+│   │   ├── PokemonCard.js     # Individual Pokemon display card
+│   │   ├── PokemonCard.css
+│   │   ├── LoadingSpinner.js  # Pokeball loading animation
 │   │   └── LoadingSpinner.css
-│   ├── App.js                  # Main application component
-│   ├── App.css
-│   ├── index.js               # React entry point
-│   └── index.css
-├── nginx.conf                 # Production web server config
-├── Dockerfile
-├── docker-compose.yml
-├── package.json
-└── README.md
+│   ├── App.js                 # Main container component
+│   ├── App.css                # App-level styles and grid
+│   ├── index.js               # React DOM entry point
+│   └── index.css              # Global styles
+├── .tr-codegen/               # Deployment configuration
+│   ├── Dockerfile             # Multi-stage Docker build
+│   ├── docker-compose.yml     # Full-stack orchestration
+│   └── nginx.conf             # SPA serving configuration
+├── package.json               # Dependencies and scripts
+├── .env.example               # Environment variables template
+└── README.md                  # This file
 ```
 
 ## Available Scripts
 
-- `npm start` - Start development server
-- `npm run build` - Build for production
-- `npm test` - Run tests
-- `npm run docker:build` - Build Docker image
-- `npm run docker:run` - Run Docker container
-
-## Features in Detail
-
-### Search and Filtering
-
-The application provides three ways to filter Pokemon:
-
-1. **Name Search**: Type any part of a Pokemon's name
-2. **Type Filter**: Select from available Pokemon types
-3. **Legendary Filter**: Show all, legendary only, or non-legendary only
-
-Filters can be combined for more specific results.
-
-### Pokemon Cards
-
-Each Pokemon is displayed in an attractive card showing:
-
-- Pokemon image/sprite
-- Name and ID number
-- Type badges with color coding
-- Special legendary badge for legendary Pokemon
-
-### Responsive Design
-
-The application adapts to different screen sizes:
-
-- Desktop: Multi-column grid layout
-- Tablet: Responsive grid with fewer columns
-- Mobile: Single column layout with touch-friendly controls
-
-### Error Handling
-
-- Connection errors show a user-friendly message
-- Missing images are handled gracefully
-- Loading states with animated Pokeball spinner
-- Empty results show helpful messaging
+| Script | Command | Description |
+|--------|---------|-------------|
+| `npm start` | `react-scripts start` | Start development server on port 3000 |
+| `npm run build` | `react-scripts build` | Build optimized production bundle |
+| `npm test` | `react-scripts test` | Run Jest test suite |
+| `npm run eject` | `react-scripts eject` | Eject from Create React App |
+| `npm run docker:build` | `docker build ...` | Build Docker image |
+| `npm run docker:run` | `docker run ...` | Run Docker container |
 
 ## Environment Variables
 
-- `REACT_APP_API_URL` - Backend API URL (default: http://localhost:3001)
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `REACT_APP_API_URL` | `http://localhost:3001` | Backend API base URL |
+
+In development, `package.json` includes a `proxy` setting to `http://localhost:3001` for seamless API proxying.
 
 ## Browser Support
 
@@ -158,15 +131,6 @@ The application adapts to different screen sizes:
 - Safari (latest)
 - Edge (latest)
 
-## Production Deployment
+## Architecture
 
-The Docker image uses a multi-stage build:
-
-1. **Build stage**: Compiles the React application
-2. **Production stage**: Serves files with Nginx
-
-Features included in production:
-- Gzip compression
-- Static asset caching
-- Security headers
-- Client-side routing support
+For a detailed overview of the system architecture, see [ARCHITECTURE.md](./ARCHITECTURE.md).

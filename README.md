@@ -1,6 +1,15 @@
 # Pokemon Frontend
 
-A React-based web application for browsing and filtering Pokemon data.
+A modern React-based web application for browsing and filtering Pokemon data. This application provides an intuitive interface with real-time filtering capabilities.
+
+## Technology Stack
+
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| React | ^18.2.0 | UI library |
+| React DOM | ^18.2.0 | DOM rendering |
+| React Scripts | 5.0.1 | Build tooling (Create React App) |
+| CSS3 | - | Styling with animations |
 
 ## Features
 
@@ -8,74 +17,40 @@ A React-based web application for browsing and filtering Pokemon data.
 - 🏷️ **Filter by Type** - Filter Pokemon by their elemental type
 - ⭐ **Legendary Filter** - Show only legendary or non-legendary Pokemon
 - 📱 **Responsive Design** - Works on desktop, tablet, and mobile
-- 🎨 **Modern UI** - Beautiful glassmorphism design with animations
-- ⚡ **Real-time Filtering** - Instant results as you type or change filters
+- 🎨 **Modern UI** - Glassmorphism design with smooth animations
+- ⚡ **Real-time Filtering** - Instant results as you type
 - 🐙 **Error Handling** - Graceful handling of network issues
 
-## Technology Stack
+## Quick Start
 
-- **React 18** - Modern React with functional components and hooks
-- **CSS3** - Custom styling with animations and responsive design
-- **Docker** - Containerized deployment
-- **Nginx** - Production web server
-
-## Prerequisites
+### Prerequisites
 
 - Node.js (v18 or later)
 - npm or yarn
-- Backend API running (see backend README)
+- Backend API running on port 3001 (see [pokemon-backend](../pokemon-backend))
 
-## Development Setup
-
-### 1. Install Dependencies
+### Installation
 
 ```bash
+# Clone the repository
+git clone <repository-url>
+cd pokemon-frontend
+
+# Install dependencies
 npm install
-```
 
-### 2. Environment Configuration
-
-Create a `.env` file in the root directory:
-
-```bash
-cp .env.example .env
-```
-
-Update the API URL in `.env`:
-```
-REACT_APP_API_URL=http://localhost:3001
-```
-
-### 3. Start Development Server
-
-```bash
+# Start development server
 npm start
 ```
 
 The application will open at `http://localhost:3000`
 
-## Docker Setup
+### Environment Configuration
 
-### Build and Run
-
-```bash
-# Build the image
-docker build -t pokemon-frontend .
-
-# Run the container
-docker run -p 3000:3000 pokemon-frontend
-```
-
-### Using Docker Compose
-
-For full-stack deployment (includes backend):
+The app uses a proxy configuration in `package.json` to forward API requests to `http://localhost:3001`. For custom API URLs, set:
 
 ```bash
-# Start both frontend and backend
-docker-compose up -d
-
-# Stop all services
-docker-compose down
+REACT_APP_API_URL=http://localhost:3001
 ```
 
 ## Project Structure
@@ -83,33 +58,34 @@ docker-compose down
 ```
 pokemon-frontend/
 ├── public/
-│   └── index.html
+│   ├── index.html        # HTML template
+│   └── manifest.json     # PWA manifest
 ├── src/
-│   ├── components/
-│   │   ├── PokemonCard.js      # Individual Pokemon card
-│   │   ├── PokemonCard.css
-│   │   ├── FilterBar.js        # Search and filter controls
+│   ├── components/       # Reusable UI components
+│   │   ├── FilterBar.js      # Search and filter controls
 │   │   ├── FilterBar.css
-│   │   ├── LoadingSpinner.js   # Pokeball loading animation
+│   │   ├── PokemonCard.js    # Individual Pokemon display
+│   │   ├── PokemonCard.css
+│   │   ├── LoadingSpinner.js # Pokeball loading animation
 │   │   └── LoadingSpinner.css
-│   ├── App.js                  # Main application component
-│   ├── App.css
-│   ├── index.js               # React entry point
-│   └── index.css
-├── nginx.conf                 # Production web server config
-├── Dockerfile
-├── docker-compose.yml
-├── package.json
-└── README.md
+│   ├── App.js            # Main application component
+│   ├── App.css           # Main application styles
+│   ├── index.js          # React entry point
+│   └── index.css         # Global styles
+├── package.json          # Dependencies and scripts
+└── README.md             # This file
 ```
 
 ## Available Scripts
 
-- `npm start` - Start development server
-- `npm run build` - Build for production
-- `npm test` - Run tests
-- `npm run docker:build` - Build Docker image
-- `npm run docker:run` - Run Docker container
+| Script | Command | Description |
+|--------|---------|-------------|
+| `start` | `react-scripts start` | Start development server on port 3000 |
+| `build` | `react-scripts build` | Build for production |
+| `test` | `react-scripts test` | Run test suite |
+| `eject` | `react-scripts eject` | Eject from Create React App |
+| `docker:build` | `docker build -t pokemon-frontend .` | Build Docker image |
+| `docker:run` | `docker run -p 3002:80 pokemon-frontend` | Run Docker container |
 
 ## Features in Detail
 
@@ -117,39 +93,44 @@ pokemon-frontend/
 
 The application provides three ways to filter Pokemon:
 
-1. **Name Search**: Type any part of a Pokemon's name
-2. **Type Filter**: Select from available Pokemon types
-3. **Legendary Filter**: Show all, legendary only, or non-legendary only
+1. **Name Search**: Type any part of a Pokemon's name (case-insensitive)
+2. **Type Filter**: Select from available Pokemon types dropdown
+3. **Legendary Filter**: Choose All / Legendary Only / Non-Legendary Only
 
 Filters can be combined for more specific results.
 
 ### Pokemon Cards
 
-Each Pokemon is displayed in an attractive card showing:
+Each Pokemon is displayed in a styled card showing:
 
 - Pokemon image/sprite
-- Name and ID number
+- Name and ID number (formatted as #001)
 - Type badges with color coding
-- Special legendary badge for legendary Pokemon
+- Special legendary badge with golden styling
 
 ### Responsive Design
 
-The application adapts to different screen sizes:
+| Viewport | Layout |
+|----------|--------|
+| Desktop | Multi-column grid layout |
+| Tablet | Responsive grid with fewer columns |
+| Mobile | Single column layout |
 
-- Desktop: Multi-column grid layout
-- Tablet: Responsive grid with fewer columns
-- Mobile: Single column layout with touch-friendly controls
+## Docker Setup
 
-### Error Handling
+```bash
+# Build the image
+npm run docker:build
 
-- Connection errors show a user-friendly message
-- Missing images are handled gracefully
-- Loading states with animated Pokeball spinner
-- Empty results show helpful messaging
+# Run the container (serves on port 80, mapped to 3002)
+npm run docker:run
+```
 
 ## Environment Variables
 
-- `REACT_APP_API_URL` - Backend API URL (default: http://localhost:3001)
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `REACT_APP_API_URL` | `http://localhost:3001` | Backend API URL |
 
 ## Browser Support
 
@@ -158,15 +139,6 @@ The application adapts to different screen sizes:
 - Safari (latest)
 - Edge (latest)
 
-## Production Deployment
+## Architecture
 
-The Docker image uses a multi-stage build:
-
-1. **Build stage**: Compiles the React application
-2. **Production stage**: Serves files with Nginx
-
-Features included in production:
-- Gzip compression
-- Static asset caching
-- Security headers
-- Client-side routing support
+For detailed architecture information, see [ARCHITECTURE.md](./ARCHITECTURE.md).

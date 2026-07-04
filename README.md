@@ -1,155 +1,201 @@
 # Pokemon Frontend
 
-A React-based web application for browsing and filtering Pokemon data.
+A modern React single-page application for browsing and filtering Pokemon. Features a beautiful glassmorphism UI with real-time filtering capabilities.
 
-## Features
-
-- 🔍 **Search by Name** - Find Pokemon by typing their name
-- 🏷️ **Filter by Type** - Filter Pokemon by their elemental type
-- ⭐ **Legendary Filter** - Show only legendary or non-legendary Pokemon
-- 📱 **Responsive Design** - Works on desktop, tablet, and mobile
-- 🎨 **Modern UI** - Beautiful glassmorphism design with animations
-- ⚡ **Real-time Filtering** - Instant results as you type or change filters
-- 🐙 **Error Handling** - Graceful handling of network issues
-
-## Technology Stack
-
-- **React 18** - Modern React with functional components and hooks
-- **CSS3** - Custom styling with animations and responsive design
-- **Docker** - Containerized deployment
-- **Nginx** - Production web server
-
-## Prerequisites
-
-- Node.js (v18 or later)
-- npm or yarn
-- Backend API running (see backend README)
-
-## Development Setup
-
-### 1. Install Dependencies
+## Quick Start
 
 ```bash
+# Install dependencies
 npm install
-```
 
-### 2. Environment Configuration
-
-Create a `.env` file in the root directory:
-
-```bash
-cp .env.example .env
-```
-
-Update the API URL in `.env`:
-```
-REACT_APP_API_URL=http://localhost:3001
-```
-
-### 3. Start Development Server
-
-```bash
+# Start development server
 npm start
 ```
 
-The application will open at `http://localhost:3000`
+Application runs at: `http://localhost:3000`
 
-## Docker Setup
+**Note**: Requires Pokemon Backend running at `http://localhost:3001`
 
-### Build and Run
+## Features
 
-```bash
-# Build the image
-docker build -t pokemon-frontend .
+| Feature | Description |
+|---------|-------------|
+| Name Search | Case-insensitive partial matching |
+| Type Filter | Filter by elemental type (dropdown) |
+| Legendary Filter | Show all, legendary only, or non-legendary |
+| Real-time Filtering | Instant results without API calls |
+| Responsive Design | Desktop, tablet, and mobile layouts |
+| Error Handling | Graceful network failure recovery |
+| Pokeball Spinner | Animated loading indicator |
 
-# Run the container
-docker run -p 3000:3000 pokemon-frontend
-```
+## Technology Stack
 
-### Using Docker Compose
-
-For full-stack deployment (includes backend):
-
-```bash
-# Start both frontend and backend
-docker-compose up -d
-
-# Stop all services
-docker-compose down
-```
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| React | 18.2.0 | UI framework |
+| React Scripts | 5.0.1 | Build tooling (CRA) |
+| CSS3 | - | Styling with animations |
+| Docker | - | Containerization |
+| Nginx | Alpine | Production server |
 
 ## Project Structure
 
 ```
 pokemon-frontend/
 ├── public/
-│   └── index.html
+│   ├── index.html             # HTML template
+│   └── manifest.json          # PWA configuration
 ├── src/
-│   ├── components/
-│   │   ├── PokemonCard.js      # Individual Pokemon card
-│   │   ├── PokemonCard.css
-│   │   ├── FilterBar.js        # Search and filter controls
-│   │   ├── FilterBar.css
-│   │   ├── LoadingSpinner.js   # Pokeball loading animation
-│   │   └── LoadingSpinner.css
-│   ├── App.js                  # Main application component
-│   ├── App.css
 │   ├── index.js               # React entry point
-│   └── index.css
-├── nginx.conf                 # Production web server config
-├── Dockerfile
-├── docker-compose.yml
+│   ├── index.css              # Global styles
+│   ├── App.js                 # Root component (state, logic)
+│   ├── App.css                # App layout styles
+│   └── components/
+│       ├── PokemonCard.js     # Pokemon display card
+│       ├── PokemonCard.css    # Card styles & type colors
+│       ├── FilterBar.js       # Filter controls
+│       ├── FilterBar.css      # Filter form styles
+│       ├── LoadingSpinner.js  # Pokeball animation
+│       └── LoadingSpinner.css # Spinner keyframes
+├── .tr-codegen/
+│   ├── Dockerfile             # Multi-stage build
+│   ├── docker-compose.yml     # Full-stack orchestration
+│   └── nginx.conf             # SPA routing config
 ├── package.json
-└── README.md
+├── .env.example               # Environment template
+├── README.md                  # This file
+├── CLAUDE.md                  # AI agent guidance
+└── ARCHITECTURE.md            # System architecture
 ```
 
-## Available Scripts
+## Development
 
-- `npm start` - Start development server
-- `npm run build` - Build for production
-- `npm test` - Run tests
-- `npm run docker:build` - Build Docker image
-- `npm run docker:run` - Run Docker container
+### Prerequisites
 
-## Features in Detail
+- Node.js v18 or later
+- npm or yarn
+- Pokemon Backend API running
 
-### Search and Filtering
+### Environment Setup
 
-The application provides three ways to filter Pokemon:
+```bash
+# Copy environment template
+cp .env.example .env
 
-1. **Name Search**: Type any part of a Pokemon's name
-2. **Type Filter**: Select from available Pokemon types
-3. **Legendary Filter**: Show all, legendary only, or non-legendary only
+# Edit .env with your backend URL
+REACT_APP_API_URL=http://localhost:3001
+```
 
-Filters can be combined for more specific results.
+### Available Scripts
 
-### Pokemon Cards
+| Command | Description |
+|---------|-------------|
+| `npm start` | Development server with HMR |
+| `npm run build` | Production build to `build/` |
+| `npm test` | Run Jest tests |
+| `npm run docker:build` | Build Docker image |
+| `npm run docker:run` | Run container (port 3002) |
 
-Each Pokemon is displayed in an attractive card showing:
+### Development Proxy
 
-- Pokemon image/sprite
-- Name and ID number
-- Type badges with color coding
-- Special legendary badge for legendary Pokemon
+During development, API calls are proxied to the backend:
+```json
+"proxy": "http://localhost:3001"
+```
 
-### Responsive Design
+## Docker Deployment
 
-The application adapts to different screen sizes:
+### Standalone Frontend
 
-- Desktop: Multi-column grid layout
-- Tablet: Responsive grid with fewer columns
-- Mobile: Single column layout with touch-friendly controls
+```bash
+# Build
+docker build -f .tr-codegen/Dockerfile -t pokemon-frontend .
 
-### Error Handling
+# Run
+docker run -p 3002:80 pokemon-frontend
+```
 
-- Connection errors show a user-friendly message
-- Missing images are handled gracefully
-- Loading states with animated Pokeball spinner
-- Empty results show helpful messaging
+### Full Stack (Frontend + Backend)
 
-## Environment Variables
+```bash
+# Start both services
+docker-compose -f .tr-codegen/docker-compose.yml up -d
 
-- `REACT_APP_API_URL` - Backend API URL (default: http://localhost:3001)
+# Stop services
+docker-compose -f .tr-codegen/docker-compose.yml down
+```
+
+**Access Points**:
+- Frontend: http://localhost:3002
+- Backend: http://localhost:3001
+
+## Component Overview
+
+### App.js (Root)
+
+Main component managing:
+- State for pokemons, filters, loading, errors
+- API calls on mount
+- Client-side filtering logic
+- Render tree coordination
+
+### FilterBar
+
+Filter control inputs:
+- Text input for name search
+- Dropdown for type selection
+- Dropdown for legendary status
+- Clear filters button
+
+### PokemonCard
+
+Pokemon display card showing:
+- Sprite image with fallback
+- Pokemon name and ID
+- Type badges with gradient colors
+- Legendary badge (conditional)
+
+### LoadingSpinner
+
+Animated Pokeball with CSS keyframes.
+
+## API Integration
+
+### Endpoints Consumed
+
+| Endpoint | Purpose |
+|----------|---------|
+| `GET /api/pokemons` | Fetch all Pokemon |
+| `GET /api/types` | Fetch available types |
+
+### Configuration
+
+```javascript
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+```
+
+## Styling
+
+### Design Tokens
+
+- **Background**: Purple gradient (`#667eea` to `#764ba2`)
+- **Header**: Coral-teal gradient (`#ff6b6b` to `#4ecdc4`)
+- **Cards**: White glassmorphism with blur
+- **Legendary**: Gold accent (`#ffd700`)
+
+### Type Colors
+
+Each Pokemon type has a unique gradient:
+- Fire: Red-orange
+- Water: Teal-green
+- Electric: Yellow
+- Psychic: Purple-pink
+- And more...
+
+### Breakpoints
+
+- Mobile: < 768px (single column)
+- Desktop: >= 768px (multi-column grid)
 
 ## Browser Support
 
@@ -158,15 +204,12 @@ The application adapts to different screen sizes:
 - Safari (latest)
 - Edge (latest)
 
-## Production Deployment
+## Related Documentation
 
-The Docker image uses a multi-stage build:
+- [CLAUDE.md](./CLAUDE.md) - AI agent guidance and patterns
+- [ARCHITECTURE.md](./ARCHITECTURE.md) - System architecture diagrams
+- [components/README.md](./src/components/README.md) - Component documentation
 
-1. **Build stage**: Compiles the React application
-2. **Production stage**: Serves files with Nginx
+## Related Projects
 
-Features included in production:
-- Gzip compression
-- Static asset caching
-- Security headers
-- Client-side routing support
+- **Pokemon Backend**: REST API providing Pokemon data

@@ -2,6 +2,8 @@
 
 A React-based web application for browsing and filtering Pokemon data.
 
+> **Documentation**: See [ARCHITECTURE.md](./ARCHITECTURE.md) for system design and [CLAUDE.md](./CLAUDE.md) for AI agent reference.
+
 ## Features
 
 - 🔍 **Search by Name** - Find Pokemon by typing their name

@@ -2,6 +2,8 @@
 
 A React-based web application for browsing and filtering Pokemon data.
 
+> **Documentation**: See [ARCHITECTURE.md](./ARCHITECTURE.md) for detailed architecture documentation and [CLAUDE.md](./CLAUDE.md) for AI agent guidance.
+
 ## Features
 
 - 🔍 **Search by Name** - Find Pokemon by typing their name
@@ -82,25 +84,30 @@ docker-compose down
 
 ```
 pokemon-frontend/
-├── public/
-│   └── index.html
-├── src/
-│   ├── components/
-│   │   ├── PokemonCard.js      # Individual Pokemon card
+├── public/                    # Static assets (see public/README.md)
+│   ├── index.html
+│   └── manifest.json
+├── src/                       # Source code (see src/README.md)
+│   ├── components/            # React components (see src/components/README.md)
+│   │   ├── PokemonCard.js     # Individual Pokemon card
 │   │   ├── PokemonCard.css
-│   │   ├── FilterBar.js        # Search and filter controls
+│   │   ├── FilterBar.js       # Search and filter controls
 │   │   ├── FilterBar.css
-│   │   ├── LoadingSpinner.js   # Pokeball loading animation
+│   │   ├── LoadingSpinner.js  # Pokeball loading animation
 │   │   └── LoadingSpinner.css
-│   ├── App.js                  # Main application component
+│   ├── App.js                 # Main application component
 │   ├── App.css
 │   ├── index.js               # React entry point
 │   └── index.css
-├── nginx.conf                 # Production web server config
-├── Dockerfile
-├── docker-compose.yml
+├── .tr-codegen/               # Docker configuration
+│   ├── Dockerfile
+│   ├── docker-compose.yml
+│   └── nginx.conf
 ├── package.json
-└── README.md
+├── .env.example               # Environment template
+├── README.md                  # This file
+├── CLAUDE.md                  # AI agent guidance
+└── ARCHITECTURE.md            # Detailed architecture documentation
 ```
 
 ## Available Scripts

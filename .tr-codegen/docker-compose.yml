@@ -15,14 +15,15 @@ services:
 
   main_app_pokemon-backend:
     build:
-      context: ../../pokemon-backend
-      dockerfile: .tr-codegen/Dockerfile
+      context: ../..
+      dockerfile: pokemon-backend/.tr-codegen/Dockerfile
     container_name: main_app_pokemon
     ports:
       - "3001:3001"
     environment:
       - NODE_ENV=production
       - PORT=3001
+      - BUILD_PATH=/app/public
     restart: unless-stopped
     networks:
       - pokemon-network

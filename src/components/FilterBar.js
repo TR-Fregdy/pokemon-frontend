@@ -1,7 +1,7 @@
 import React from 'react';
 import './FilterBar.css';
 
-const FilterBar = ({ filters, types, onFilterChange, onClearFilters }) => {
+const FilterBar = ({ filters, types, colors, onFilterChange, onClearFilters }) => {
   const handleInputChange = (field, value) => {
     onFilterChange({
       ...filters,
@@ -9,7 +9,7 @@ const FilterBar = ({ filters, types, onFilterChange, onClearFilters }) => {
     });
   };
 
-  const hasActiveFilters = filters.name || filters.type || filters.legendary;
+  const hasActiveFilters = filters.name || filters.type || filters.legendary || filters.color;
 
   return (
     <div className="filter-bar">
@@ -59,6 +59,25 @@ const FilterBar = ({ filters, types, onFilterChange, onClearFilters }) => {
           <option value="">All Pokemon</option>
           <option value="true">Legendary Only</option>
           <option value="false">Non-Legendary Only</option>
+        </select>
+      </div>
+
+      <div className="filter-section">
+        <label htmlFor="color-filter" className="filter-label">
+          Filter by Color:
+        </label>
+        <select
+          id="color-filter"
+          value={filters.color}
+          onChange={(e) => handleInputChange('color', e.target.value)}
+          className="filter-select"
+        >
+          <option value="">All Colors</option>
+          {colors.map(color => (
+            <option key={color} value={color}>
+              {color}
+            </option>
+          ))}
         </select>
       </div>
 

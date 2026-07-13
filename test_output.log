@@ -1,0 +1,5 @@
+
+> pokemon-frontend@1.0.0 test
+> react-scripts test --passWithNoTests
+
+No tests found, exiting with code 0

@@ -4,7 +4,7 @@ import PokemonCard from './components/PokemonCard';
 import FilterBar from './components/FilterBar';
 import LoadingSpinner from './components/LoadingSpinner';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:21023';
 
 function App() {
   const [pokemons, setPokemons] = useState([]);
@@ -23,7 +23,7 @@ function App() {
     const fetchInitialData = async () => {
       try {
         setLoading(true);
-        
+
         const [pokemonResponse, typesResponse] = await Promise.all([
           fetch(`${API_BASE_URL}/api/pokemons`),
           fetch(`${API_BASE_URL}/api/types`)

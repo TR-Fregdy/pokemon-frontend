@@ -1,33 +1,33 @@
 version: '3.8'
 
 services:
-  main_app_web:
+  main_app_pokemon-web:
     build:
       context: ..
       dockerfile: codeCake/Dockerfile
     image: pokemon-frontend:latest
     ports:
-      - "3002:80"
+      - "21022:80"
     networks:
       - pokemon-network
     depends_on:
-      - main_app_pokemon-backend
+      - pokemon-backend
 
-  main_app_pokemon-backend:
+  pokemon-backend:
     build:
       context: ../../pokemon-backend
-      dockerfile: codeCake/Dockerfile
-    container_name: main_app_pokemon
+      dockerfile: Dockerfile
+    container_name: pokemon_backend
     ports:
-      - "3001:3001"
+      - "21023:21023"
     environment:
       - NODE_ENV=production
-      - PORT=3001
+      - PORT=21023
     restart: unless-stopped
     networks:
       - pokemon-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:21023/health"]
       interval: 30s
       timeout: 10s
       retries: 3

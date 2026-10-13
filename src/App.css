@@ -63,6 +63,15 @@ body {
   padding: 2rem 1rem;
 }
 
+.search-heading {
+  color: white;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
 .results-info {
   text-align: center;
   margin: 1rem 0;

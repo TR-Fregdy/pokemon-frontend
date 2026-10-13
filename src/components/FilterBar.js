@@ -29,7 +29,7 @@ const FilterBar = ({ filters, types, onFilterChange, onClearFilters }) => {
 
       <div className="filter-section">
         <label htmlFor="type-filter" className="filter-label">
-          Filter by Type:
+          Filter By Type
         </label>
         <select
           id="type-filter"

@@ -135,6 +135,7 @@ function App() {
       </header>
 
       <main className="main-content">
+        <h2 className="search-heading">SEARCH POKEMON</h2>
         <FilterBar
           filters={filters}
           types={types}

@@ -13,66 +13,76 @@ const FilterBar = ({ filters, types, onFilterChange, onClearFilters }) => {
 
   return (
     <div className="filter-bar">
-      <div className="filter-section">
-        <label htmlFor="name-filter" className="filter-label">
-          Search by Name:
-        </label>
-        <input
-          id="name-filter"
-          type="text"
-          placeholder="Enter Pokemon name..."
-          value={filters.name}
-          onChange={(e) => handleInputChange('name', e.target.value)}
-          className="filter-input"
-        />
-      </div>
-
-      <div className="filter-section">
-        <label htmlFor="type-filter" className="filter-label">
-          Filter by Type:
-        </label>
-        <select
-          id="type-filter"
-          value={filters.type}
-          onChange={(e) => handleInputChange('type', e.target.value)}
-          className="filter-select"
-        >
-          <option value="">All Types</option>
-          {types.map(type => (
-            <option key={type} value={type}>
-              {type}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div className="filter-section">
-        <label htmlFor="legendary-filter" className="filter-label">
-          Legendary Status:
-        </label>
-        <select
-          id="legendary-filter"
-          value={filters.legendary}
-          onChange={(e) => handleInputChange('legendary', e.target.value)}
-          className="filter-select"
-        >
-          <option value="">All Pokemon</option>
-          <option value="true">Legendary Only</option>
-          <option value="false">Non-Legendary Only</option>
-        </select>
-      </div>
-
-      {hasActiveFilters && (
+      {/* Search Section */}
+      <div className="filter-search-section">
+        <h3 className="filter-section-header">SEARCH POKEMON</h3>
         <div className="filter-section">
-          <button
-            onClick={onClearFilters}
-            className="clear-filters-button"
-            title="Clear all filters"
-          >
-            Clear Filters
-          </button>
+          <label htmlFor="name-filter" className="filter-label">
+            Search Pokemon
+          </label>
+          <input
+            id="name-filter"
+            type="text"
+            placeholder="Enter Pokemon name..."
+            value={filters.name}
+            onChange={(e) => handleInputChange('name', e.target.value)}
+            className="filter-input"
+          />
         </div>
-      )}
+      </div>
+
+      {/* Filters Section */}
+      <div className="filter-filters-section">
+        <h3 className="filter-section-header">FILTERS</h3>
+        <div className="filters-grid">
+          <div className="filter-section">
+            <label htmlFor="type-filter" className="filter-label">
+              Filter By Type
+            </label>
+            <select
+              id="type-filter"
+              value={filters.type}
+              onChange={(e) => handleInputChange('type', e.target.value)}
+              className="filter-select"
+            >
+              <option value="">All Types</option>
+              {types.map(type => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="filter-section">
+            <label htmlFor="legendary-filter" className="filter-label">
+              Legendary Status
+            </label>
+            <select
+              id="legendary-filter"
+              value={filters.legendary}
+              onChange={(e) => handleInputChange('legendary', e.target.value)}
+              className="filter-select"
+            >
+              <option value="">All Pokemon</option>
+              <option value="true">Legendary Only</option>
+              <option value="false">Non-Legendary Only</option>
+            </select>
+          </div>
+        </div>
+
+        {hasActiveFilters && (
+          <div className="filter-section">
+            <button
+              onClick={onClearFilters}
+              className="clear-filters-button"
+              title="Clear all filters"
+            >
+              Clear Filters
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

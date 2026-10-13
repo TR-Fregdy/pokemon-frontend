@@ -1,14 +1,49 @@
 /* FilterBar.css */
 .filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Search Section */
+.filter-search-section {
   background: rgba(255, 255, 255, 0.95);
   padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Filters Section */
+.filter-filters-section {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Section Headers */
+.filter-section-header {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Filters Grid */
+.filters-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  align-items: end;
 }
 
 .filter-section {
@@ -56,6 +91,8 @@
   transition: all 0.3s ease;
   height: fit-content;
   white-space: nowrap;
+  width: fit-content;
+  margin-top: 1rem;
 }
 
 .clear-filters-button:hover {
@@ -67,11 +104,20 @@
 /* Responsive design */
 @media (max-width: 768px) {
   .filter-bar {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 1.5rem;
   }
-  
+
+  .filter-search-section,
+  .filter-filters-section {
+    width: 100%;
+  }
+
+  .filters-grid {
+    grid-template-columns: 1fr;
+  }
+
   .clear-filters-button {
-    margin-top: 0.5rem;
+    margin-top: 1rem;
   }
 }

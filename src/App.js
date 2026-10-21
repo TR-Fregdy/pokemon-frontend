@@ -10,35 +10,40 @@ function App() {
   const [pokemons, setPokemons] = useState([]);
   const [filteredPokemons, setFilteredPokemons] = useState([]);
   const [types, setTypes] = useState([]);
+  const [colors, setColors] = useState([]);
   const [filters, setFilters] = useState({
     name: '',
     type: '',
+    color: '',
     legendary: ''
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch all Pokemon and types on component mount
+  // Fetch all Pokemon, types, and colors on component mount
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
         setLoading(true);
-        
-        const [pokemonResponse, typesResponse] = await Promise.all([
+
+        const [pokemonResponse, typesResponse, colorsResponse] = await Promise.all([
           fetch(`${API_BASE_URL}/api/pokemons`),
-          fetch(`${API_BASE_URL}/api/types`)
+          fetch(`${API_BASE_URL}/api/types`),
+          fetch(`${API_BASE_URL}/api/colors`)
         ]);
 
-        if (!pokemonResponse.ok || !typesResponse.ok) {
+        if (!pokemonResponse.ok || !typesResponse.ok || !colorsResponse.ok) {
           throw new Error('Failed to fetch data');
         }
 
         const pokemonData = await pokemonResponse.json();
         const typesData = await typesResponse.json();
+        const colorsData = await colorsResponse.json();
 
         setPokemons(pokemonData.data);
         setFilteredPokemons(pokemonData.data);
         setTypes(typesData.data);
+        setColors(colorsData.data);
         setError(null);
       } catch (err) {
         setError('Failed to load Pokemon data. Please make sure the backend server is running.');
@@ -70,6 +75,13 @@ function App() {
         );
       }
 
+      // Filter by color
+      if (filters.color) {
+        filtered = filtered.filter(pokemon =>
+          pokemon.color.toLowerCase() === filters.color.toLowerCase()
+        );
+      }
+
       // Filter by legendary status
       if (filters.legendary !== '') {
         const isLegendary = filters.legendary === 'true';
@@ -90,6 +102,7 @@ function App() {
     setFilters({
       name: '',
       type: '',
+      color: '',
       legendary: ''
     });
   };
@@ -127,17 +140,15 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>Pokemon Explorer v2</h1>
+        <h1>Pokemon Explorer</h1>
         <p>Discover and filter your favorite Pokemon!</p>
-        <div className="header-actions">
-          <button className="jira-link-button">Link Jira Issue</button>
-        </div>
       </header>
 
       <main className="main-content">
         <FilterBar
           filters={filters}
           types={types}
+          colors={colors}
           onFilterChange={handleFilterChange}
           onClearFilters={clearFilters}
         />
